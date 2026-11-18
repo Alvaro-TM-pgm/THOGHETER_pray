@@ -1,216 +1,184 @@
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background: #101b2b;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
-
-.container {
-    width: 92%;
-    max-width: 1100px;
-    margin: auto;
-    padding: 45px 0;
-}
-
-#selecao h1 {
-    text-align: center;
-    font-size: 28px;
-    letter-spacing: 1px;
-    margin-bottom: 35px;
-}
-
-.catalogo {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-}
-
-.video-card {
-    background: #1d2c40;
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-.video-card:hover {
-    transform: translateY(-5px);
-    background: #293d56;
-}
-
-.miniatura {
-    aspect-ratio: 16 / 9;
-    background: linear-gradient(135deg, #263f59, #111d2c);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.miniatura span {
-    font-size: 55px;
-    color: #e8bd65;
-}
-
-.video-card h3 {
-    font-size: 15px;
-    padding: 15px;
-}
-
-#area-video {
-    width: 100%;
-    max-width: 950px;
-    margin: 20px auto;
-}
-
-#video-player {
-    width: 100%;
-    max-height: 75vh;
-    background: #000000;
-    border-radius: 12px;
-}
-
-.erro {
-    color: #ff9999;
-    text-align: center;
-    padding: 20px;
-}
-
-.oculto {
-    display: none !important;
-}
-
-#mensagem-final {
-    min-height: 65vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.mensagem {
-    max-width: 600px;
-    padding: 30px;
-}
-
-.icone {
-    font-size: 75px;
-    color: #e8bd65;
-    margin-bottom: 20px;
-}
-
-.mensagem h1 {
-    font-size: 30px;
-    margin-bottom: 20px;
-}
-
-.mensagem h2 {
-    color: #e8bd65;
-    font-size: 23px;
-    margin-bottom: 20px;
-}
-
-.mensagem p {
-    color: #d0d9e5;
-    line-height: 1.7;
-    font-size: 17px;
-}
-
-.frase-final {
-    margin-top: 20px;
-    font-weight: bold;
-}
-
-@media (min-width: 700px) {
-    .catalogo {
-        grid-template-columns: repeat(3, 1fr);
+const missionarios = [
+    {
+        nome: "Ellen Gregorio",
+        video: "ellen_gregorio_honduras.mp4"
+    },
+    {
+        nome: "Missionário 02",
+        video: "missionario02.mp4"
+    },
+    {
+        nome: "Missionário 03",
+        video: "missionario03.mp4"
+    },
+    {
+        nome: "Missionário 04",
+        video: "missionario04.mp4"
+    },
+    {
+        nome: "Missionário 05",
+        video: "missionario05.mp4"
+    },
+    {
+        nome: "Missionário 06",
+        video: "missionario06.mp4"
+    },
+    {
+        nome: "Missionário 07",
+        video: "missionario07.mp4"
+    },
+    {
+        nome: "Missionário 08",
+        video: "missionario08.mp4"
+    },
+    {
+        nome: "Missionário 09",
+        video: "missionario09.mp4"
+    },
+    {
+        nome: "Missionário 10",
+        video: "missionario10.mp4"
     }
+];
+
+// ELEMENTOS DO SITE
+
+const catalogo = document.getElementById("catalogo");
+const selecao = document.getElementById("selecao");
+const areaVideo = document.getElementById("area-video");
+const mensagemFinal = document.getElementById("mensagem-final");
+
+const videoPlayer = document.getElementById("video-player");
+const erroVideo = document.getElementById("erro-video");
+
+const botaoVoltar = document.getElementById("voltar");
+const tituloVideo = document.getElementById("titulo-video");
+
+let missionarioAtual = null;
+
+// CRIAR CATÁLOGO
+
+missionarios.forEach((missionario) => {
+
+    const card = document.createElement("div");
+    card.className = "video-card";
+
+    const miniatura = document.createElement("div");
+    miniatura.className = "miniatura";
+
+    const play = document.createElement("span");
+    play.textContent = "▶";
+
+    miniatura.appendChild(play);
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = missionario.nome;
+
+    card.appendChild(miniatura);
+    card.appendChild(titulo);
+
+    card.addEventListener("click", () => {
+        abrirVideo(missionario);
+    });
+
+    catalogo.appendChild(card);
+
+});
+
+// ABRIR VÍDEO
+
+function abrirVideo(missionario) {
+
+    missionarioAtual = missionario;
+
+    selecao.classList.add("oculto");
+    mensagemFinal.classList.add("oculto");
+
+    areaVideo.classList.remove("oculto");
+    erroVideo.classList.add("oculto");
+
+    tituloVideo.textContent = missionario.nome;
+
+    // Limpar vídeo anterior
+    videoPlayer.pause();
+
+    videoPlayer.removeAttribute("src");
+
+    // Carregar novo arquivo
+    videoPlayer.src = missionario.video;
+
+    videoPlayer.load();
+
+    // Iniciar reprodução
+    videoPlayer.play().catch(() => {
+        // Os controles permanecem disponíveis
+        // para iniciar a reprodução manualmente.
+    });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
 }
 
-@media (max-width: 450px) {
-    .container {
-        padding-top: 30px;
-    }
+// VOLTAR AO CATÁLOGO
 
-    #selecao h1 {
-        font-size: 22px;
-    }
+botaoVoltar.addEventListener("click", () => {
 
-    .catalogo {
-        gap: 12px;
-    }
+    videoPlayer.pause();
 
-    .video-card h3 {
-        font-size: 13px;
-        padding: 10px;
-    }
+    videoPlayer.removeAttribute("src");
 
-/* ÁREA DO VÍDEO */
+    videoPlayer.load();
 
-#area-video {
-    width: 100%;
-    max-width: 950px;
-    margin: 20px auto;
-}
+    areaVideo.classList.add("oculto");
+    mensagemFinal.classList.add("oculto");
 
-/* BOTÃO VOLTAR */
+    selecao.classList.remove("oculto");
 
-#voltar {
-    background: #e8bd65;
-    color: #101b2b;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: 0.2s;
-}
+    missionarioAtual = null;
 
-#voltar:hover {
-    background: #ffffff;
-    transform: translateX(-3px);
-}
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
-/* TÍTULO DO VÍDEO */
+});
 
-#titulo-video {
-    margin-bottom: 18px;
-    font-size: 23px;
-    color: #e8bd65;
-}
+// QUANDO O VÍDEO TERMINAR
 
-/* PLAYER */
+videoPlayer.addEventListener("ended", () => {
 
-#video-player {
-    display: block;
-    width: 100%;
-    max-height: 75vh;
-    aspect-ratio: 16 / 9;
-    background: #000;
-    border-radius: 12px;
-}
+    if (!missionarioAtual) return;
 
-/* ERRO */
+    areaVideo.classList.add("oculto");
 
-#erro-video {
-    color: #ff9999;
-    padding: 20px;
-    text-align: center;
-    line-height: 1.6;
-}
+    mensagemFinal.classList.remove("oculto");
 
-/* ESCONDER ELEMENTOS */
+    document.getElementById("nome-final").textContent =
+        "Agora ore por " + missionarioAtual.nome + ".";
 
-.oculto {
-    display: none !important;
-}
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
+});
+
+// IDENTIFICAR ERROS DE CARREGAMENTO
+
+videoPlayer.addEventListener("error", () => {
+
+    erroVideo.classList.remove("oculto");
+
+});
+
+// LIMPAR MENSAGEM DE ERRO QUANDO CARREGAR
+
+videoPlayer.addEventListener("loadedmetadata", () => {
+
+    erroVideo.classList.add("oculto");
+
+});
