@@ -4,101 +4,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#153c32">
+    <title>Escolha um missionário para orar</title>
 
-    <meta name="theme-color" content="#101b2b">
-    <meta name="description" content="Escolha um missionário, conheça sua história e ore por essa missão.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-    <title>Missionários em Oração</title>
-
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <main class="container">
+<header class="topbar">
+    <div class="brand-mark">✦</div>
+    <span>PROJETO DE ORAÇÃO</span>
+</header>
 
-        <!-- TELA DE SELEÇÃO -->
-        <section id="selecao">
+<main class="page">
 
-            <header class="cabecalho">
-                <span class="linha-decorativa"></span>
+    <section class="intro">
+        <div class="eyebrow">
+            <span></span> UM MOMENTO DE FÉ E PROPÓSITO
+        </div>
 
-                <h1>ESCOLHA UM MISSIONÁRIO PARA ORAR</h1>
+        <h1>
+            Escolha um missionário<br>
+            <em>para orar.</em>
+        </h1>
 
+        <p class="intro-copy">
+            Cada missionário tem um pedido especial.
+            Escolha um vídeo, conheça seu motivo de oração
+            e reserve um momento para falar com Deus por essa missão.
+        </p>
+
+        <div class="rule">
+            <span>10 MISSIONÁRIOS</span>
+            <i></i>
+            <span>10 MOTIVOS DE ORAÇÃO</span>
+        </div>
+    </section>
+
+    <section class="content">
+
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">SUA ESCOLHA</p>
+                <h2>Por quem vamos orar hoje?</h2>
+            </div>
+
+            <span class="counter" id="counter">
+                0/10 vídeos adicionados
+            </span>
+        </div>
+
+        <div class="setup-note" id="setupNote">
+            <div class="note-icon">＋</div>
+
+            <div>
+                <strong>Adicione os vídeos dos missionários</strong>
                 <p>
-                    Escolha uma causa missionária e conheça sua história.
+                    Selecione até 10 vídeos que estão salvos no seu computador.
                 </p>
-            </header>
-
-            <div id="catalogo" class="catalogo">
-                <!-- Os cartões serão criados pelo JavaScript -->
             </div>
+        </div>
 
-        </section>
+        <div class="video-grid" id="videoGrid"></div>
 
-        <!-- TELA DO VÍDEO -->
-        <section id="area-video" class="oculto">
+        <div class="closing-verse">
+            <span class="verse-icon">♡</span>
+            <p>
+                “Orem continuamente.”
+                <strong>1 Tessalonicenses 5:17</strong>
+            </p>
+        </div>
 
-            <button id="voltar" type="button">
-                <span>←</span> Voltar aos missionários
-            </button>
+    </section>
 
-            <h2 id="titulo-video"></h2>
+</main>
 
-            <div class="player-container">
+<div class="modal" id="playerModal" aria-hidden="true">
 
-                <video
-                    id="video-player"
-                    controls
-                    playsinline
-                    preload="metadata">
-                    Seu navegador não suporta reprodução de vídeo.
-                </video>
+    <div class="modal-backdrop" data-close="true"></div>
 
-            </div>
+    <section class="player-panel">
 
-            <p id="erro-video" class="erro oculto">
-                Não foi possível reproduzir este vídeo.
-                Verifique se o arquivo foi enviado corretamente.
+        <button class="close-button" id="closePlayer">×</button>
+
+        <p class="section-kicker">MOTIVO DE ORAÇÃO</p>
+
+        <h2 id="playerTitle">Missionário</h2>
+
+        <div class="video-wrap">
+            <video
+                id="missionaryVideo"
+                controls
+                playsinline
+                preload="metadata">
+            </video>
+        </div>
+
+        <p class="watch-hint">
+            Assista ao vídeo e ore por esse pedido.
+        </p>
+
+        <div class="thank-you" id="thankYou" hidden>
+
+            <div class="heart">♡</div>
+
+            <h3>Obrigado por orar!</h3>
+
+            <p>
+                Vamos continuar unidos em oração pelos missionários.
+                Cada oração fortalece essa missão.
             </p>
 
-        </section>
+            <button class="primary-button" id="backToList">
+                Escolher outro missionário
+            </button>
 
-        <!-- TELA FINAL -->
-        <section id="mensagem-final" class="oculto">
+        </div>
 
-            <div class="mensagem">
+    </section>
+</div>
 
-                <div class="icone-coracao">♡</div>
+<footer>
+    <span>FEITO COM FÉ</span>
+    <span>♡</span>
+    <span>UNIDOS EM ORAÇÃO</span>
+</footer>
 
-                <span class="etiqueta-final">MOMENTO DE ORAÇÃO</span>
-
-                <h1>AGORA É A SUA VEZ!</h1>
-
-                <h2 id="nome-final">
-                    Agora ore por este missionário.
-                </h2>
-
-                <p>
-                    Dedique alguns minutos para conversar com Deus
-                    por essa vida e por essa missão.
-                </p>
-
-                <p class="frase-final">
-                    Sua oração também faz parte dessa obra.
-                </p>
-
-                <button id="voltar-final" type="button">
-                    Escolher outro missionário
-                </button>
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <script src="script.js?v=2"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
