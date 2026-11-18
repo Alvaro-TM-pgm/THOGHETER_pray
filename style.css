@@ -1,236 +1,294 @@
 
-// ======================================
-// MISSIONÁRIOS E ARQUIVOS MP4
-// ======================================
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-const missionarios = [
-    {
-        nome: "Ellen Gregorio",
-        video: "ellen_gregorio_honduras.mp4"
-    },
-    {
-        nome: "Missionário 02",
-        video: "missionario02.mp4"
-    },
-    {
-        nome: "Missionário 03",
-        video: "missionario03.mp4"
-    },
-    {
-        nome: "Missionário 04",
-        video: "missionario04.mp4"
-    },
-    {
-        nome: "Missionário 05",
-        video: "missionario05.mp4"
-    },
-    {
-        nome: "Missionário 06",
-        video: "missionario06.mp4"
-    },
-    {
-        nome: "Missionário 07",
-        video: "missionario07.mp4"
-    },
-    {
-        nome: "Missionário 08",
-        video: "missionario08.mp4"
-    },
-    {
-        nome: "Missionário 09",
-        video: "missionario09.mp4"
-    },
-    {
-        nome: "Missionário 10",
-        video: "missionario10.mp4"
+:root {
+    --fundo: #101b2b;
+    --cartao: #1d2c40;
+    --cartao-hover: #293d56;
+    --dourado: #e8bd65;
+    --branco: #ffffff;
+    --texto: #cbd5e1;
+}
+
+body {
+    background: var(--fundo);
+    color: var(--branco);
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+
+.container {
+    width: 92%;
+    max-width: 1150px;
+    margin: auto;
+    padding: 55px 0;
+}
+
+/* CABEÇALHO */
+
+.cabecalho {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.linha-decorativa {
+    display: block;
+    width: 65px;
+    height: 4px;
+    background: var(--dourado);
+    margin: 0 auto 22px;
+    border-radius: 10px;
+}
+
+.cabecalho h1 {
+    font-size: clamp(23px, 4vw, 34px);
+    letter-spacing: 1px;
+    line-height: 1.3;
+}
+
+.cabecalho p {
+    color: var(--texto);
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+/* CATÁLOGO */
+
+.catalogo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.video-card {
+    background: var(--cartao);
+    border-radius: 13px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: transform 0.25s, background 0.25s;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    background: var(--cartao-hover);
+}
+
+.miniatura {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #344d68, #172536);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.miniatura img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.botao-play {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: rgba(232,189,101,0.95);
+    color: #101b2b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    padding-left: 4px;
+    z-index: 1;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.video-card h3 {
+    font-size: 15px;
+    padding: 16px;
+    font-weight: 600;
+}
+
+/* TELA DE VÍDEO */
+
+#area-video {
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+#voltar {
+    background: transparent;
+    border: 1px solid var(--dourado);
+    color: var(--dourado);
+    padding: 11px 17px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 25px;
+    transition: 0.2s;
+}
+
+#voltar:hover {
+    background: var(--dourado);
+    color: var(--fundo);
+}
+
+#voltar span {
+    font-size: 19px;
+    margin-right: 6px;
+}
+
+#titulo-video {
+    color: var(--dourado);
+    font-size: 24px;
+    margin-bottom: 18px;
+}
+
+.player-container {
+    width: 100%;
+    background: #000;
+    border-radius: 13px;
+    overflow: hidden;
+}
+
+#video-player {
+    display: block;
+    width: 100%;
+    max-height: 75vh;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.erro {
+    color: #ff9999;
+    background: #3b2027;
+    padding: 18px;
+    margin-top: 15px;
+    border-radius: 8px;
+    line-height: 1.5;
+}
+
+/* TELA FINAL */
+
+#mensagem-final {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.mensagem {
+    max-width: 650px;
+    padding: 35px 20px;
+}
+
+.icone-coracao {
+    font-size: 85px;
+    color: var(--dourado);
+    margin-bottom: 15px;
+}
+
+.etiqueta-final {
+    color: var(--dourado);
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.mensagem h1 {
+    font-size: clamp(27px, 5vw, 38px);
+    margin: 18px 0;
+}
+
+.mensagem h2 {
+    color: var(--dourado);
+    font-size: clamp(20px, 4vw, 26px);
+    margin-bottom: 22px;
+}
+
+.mensagem p {
+    color: var(--texto);
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+.frase-final {
+    margin-top: 18px;
+    font-weight: bold;
+}
+
+#voltar-final {
+    margin-top: 30px;
+    background: var(--dourado);
+    color: var(--fundo);
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#voltar-final:hover {
+    background: #fff;
+}
+
+/* ESCONDER TELAS */
+
+.oculto {
+    display: none !important;
+}
+
+/* COMPUTADOR */
+
+@media (min-width: 750px) {
+    .catalogo {
+        grid-template-columns: repeat(3, 1fr);
     }
-];
-
-// ======================================
-// ELEMENTOS DO HTML
-// ======================================
-
-const catalogo = document.getElementById("catalogo");
-const selecao = document.getElementById("selecao");
-const areaVideo = document.getElementById("area-video");
-const mensagemFinal = document.getElementById("mensagem-final");
-
-const videoPlayer = document.getElementById("video-player");
-const tituloVideo = document.getElementById("titulo-video");
-const nomeFinal = document.getElementById("nome-final");
-const erroVideo = document.getElementById("erro-video");
-
-const botaoVoltar = document.getElementById("voltar");
-const botaoVoltarFinal = document.getElementById("voltar-final");
-
-let missionarioAtual = null;
-
-// ======================================
-// CRIAR OS 10 CARTÕES
-// ======================================
-
-function criarCatalogo() {
-
-    catalogo.innerHTML = "";
-
-    missionarios.forEach((missionario) => {
-
-        const card = document.createElement("article");
-        card.className = "video-card";
-        card.setAttribute("role", "button");
-        card.setAttribute("tabindex", "0");
-
-        const miniatura = document.createElement("div");
-        miniatura.className = "miniatura";
-
-        const play = document.createElement("span");
-        play.className = "botao-play";
-        play.textContent = "▶";
-
-        miniatura.appendChild(play);
-
-        const titulo = document.createElement("h3");
-        titulo.textContent = missionario.nome;
-
-        card.appendChild(miniatura);
-        card.appendChild(titulo);
-
-        card.addEventListener("click", () => {
-            abrirVideo(missionario);
-        });
-
-        card.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                abrirVideo(missionario);
-            }
-        });
-
-        catalogo.appendChild(card);
-
-    });
-
 }
 
-// ======================================
-// ABRIR VÍDEO SELECIONADO
-// ======================================
+/* CELULAR */
 
-function abrirVideo(missionario) {
+@media (max-width: 480px) {
+    .container {
+        padding: 35px 0;
+    }
 
-    missionarioAtual = missionario;
+    .cabecalho {
+        margin-bottom: 30px;
+    }
 
-    // Esconder outras telas
-    selecao.classList.add("oculto");
-    mensagemFinal.classList.add("oculto");
+    .catalogo {
+        gap: 13px;
+    }
 
-    // Mostrar player
-    areaVideo.classList.remove("oculto");
+    .video-card h3 {
+        font-size: 13px;
+        padding: 12px 9px;
+    }
 
-    tituloVideo.textContent = missionario.nome;
+    .botao-play {
+        width: 46px;
+        height: 46px;
+        font-size: 19px;
+    }
 
-    erroVideo.classList.add("oculto");
+    #titulo-video {
+        font-size: 20px;
+    }
 
-    // Limpar vídeo anterior
-    videoPlayer.pause();
-    videoPlayer.removeAttribute("src");
-
-    // Caminho do MP4 na raiz do repositório
-    videoPlayer.src = missionario.video;
-
-    videoPlayer.load();
-
-    // Tentar iniciar automaticamente
-    videoPlayer.play().catch(() => {
-        // Se o navegador bloquear o autoplay,
-        // o usuário poderá clicar no botão Play.
-    });
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+    .mensagem {
+        padding: 20px 10px;
+    }
 }
-
-// ======================================
-// VOLTAR AO CATÁLOGO
-// ======================================
-
-function voltarAoCatalogo() {
-
-    videoPlayer.pause();
-
-    videoPlayer.removeAttribute("src");
-    videoPlayer.load();
-
-    missionarioAtual = null;
-
-    areaVideo.classList.add("oculto");
-    mensagemFinal.classList.add("oculto");
-
-    selecao.classList.remove("oculto");
-
-    erroVideo.classList.add("oculto");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
-
-botaoVoltar.addEventListener("click", voltarAoCatalogo);
-
-botaoVoltarFinal.addEventListener("click", voltarAoCatalogo);
-
-// ======================================
-// QUANDO O VÍDEO TERMINAR
-// ======================================
-
-videoPlayer.addEventListener("ended", () => {
-
-    if (!missionarioAtual) return;
-
-    areaVideo.classList.add("oculto");
-
-    mensagemFinal.classList.remove("oculto");
-
-    nomeFinal.textContent =
-        "Agora ore por " + missionarioAtual.nome + ".";
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-});
-
-// ======================================
-// IDENTIFICAR ERRO NO VÍDEO
-// ======================================
-
-videoPlayer.addEventListener("error", () => {
-
-    erroVideo.classList.remove("oculto");
-
-    console.error(
-        "Erro ao carregar o vídeo:",
-        missionarioAtual?.video,
-        videoPlayer.error
-    );
-
-});
-
-// Esconder aviso quando o vídeo estiver pronto
-videoPlayer.addEventListener("canplay", () => {
-
-    erroVideo.classList.add("oculto");
-
-});
-
-// ======================================
-// INICIAR SITE
-// ======================================
-
-criarCatalogo();
