@@ -1,6 +1,6 @@
 
 const missionarios = [
-    { nome: "Ellen Gregorio", id: "ellen_gregorio_honduras.mp4" },
+    { nome: "Ellen Gregorio", video: "ellen_gregorio_honduras.mp4" },
     { nome: "Missionário 02", id: "ID_DO_VIDEO_2" },
     { nome: "Missionário 03", id: "ID_DO_VIDEO_3" },
     { nome: "Missionário 04", id: "ID_DO_VIDEO_4" },
