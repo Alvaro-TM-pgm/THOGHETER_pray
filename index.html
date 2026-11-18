@@ -5,34 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#101b2b">
+
     <title>Missionários em Oração</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <main class="container">
 
-        <!-- SELEÇÃO DOS MISSIONÁRIOS -->
+        <!-- CATÁLOGO -->
         <section id="selecao">
-            <h1>ESCOLHA UM MISSIONÁRIO PARA ORAR</h1>
-            <p class="subtitulo">
-                Escolha uma causa missionária e conheça sua história.
-            </p>
 
-            <div id="catalogo" class="catalogo"></div>
+            <h1>ESCOLHA UM MISSIONÁRIO PARA ORAR</h1>
+
+            <div class="catalogo" id="catalogo"></div>
+
         </section>
 
-        <!-- REPRODUÇÃO DO VÍDEO -->
+        <!-- PLAYER DE VÍDEO -->
         <section id="area-video" class="oculto">
-            <div id="player"></div>
+
+            <video
+                id="video-player"
+                controls
+                playsinline
+                preload="metadata">
+            </video>
+
+            <p id="erro-video" class="erro oculto">
+                Não foi possível reproduzir este vídeo.
+            </p>
+
         </section>
 
         <!-- MENSAGEM FINAL -->
         <section id="mensagem-final" class="oculto">
+
             <div class="mensagem">
+
                 <div class="icone">♡</div>
+
                 <h1>AGORA É A SUA VEZ!</h1>
-                <h2 id="nome-final">Ore por este missionário.</h2>
+
+                <h2 id="nome-final">
+                    Ore por este missionário.
+                </h2>
 
                 <p>
                     Dedique alguns minutos para conversar com Deus
@@ -42,11 +61,14 @@
                 <p class="frase-final">
                     Sua oração também faz parte dessa obra.
                 </p>
+
             </div>
+
         </section>
 
     </main>
 
     <script src="script.js"></script>
+
 </body>
 </html>
