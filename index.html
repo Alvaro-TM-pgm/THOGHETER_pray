@@ -4,59 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="theme-color" content="#101b2b">
+    <meta name="description" content="Escolha um missionário, conheça sua história e ore por essa missão.">
 
     <title>Missionários em Oração</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 
 <body>
 
     <main class="container">
 
-        <!-- CATÁLOGO -->
+        <!-- TELA DE SELEÇÃO -->
         <section id="selecao">
 
-            <h1>ESCOLHA UM MISSIONÁRIO PARA ORAR</h1>
+            <header class="cabecalho">
+                <span class="linha-decorativa"></span>
 
-            <div class="catalogo" id="catalogo"></div>
+                <h1>ESCOLHA UM MISSIONÁRIO PARA ORAR</h1>
+
+                <p>
+                    Escolha uma causa missionária e conheça sua história.
+                </p>
+            </header>
+
+            <div id="catalogo" class="catalogo">
+                <!-- Os cartões serão criados pelo JavaScript -->
+            </div>
 
         </section>
 
-        
-<!-- PLAYER DE VÍDEO -->
-<section id="area-video" class="oculto">
+        <!-- TELA DO VÍDEO -->
+        <section id="area-video" class="oculto">
 
-    <button id="voltar" type="button">
-        ← Voltar aos missionários
-    </button>
+            <button id="voltar" type="button">
+                <span>←</span> Voltar aos missionários
+            </button>
 
-    <h2 id="titulo-video"></h2>
+            <h2 id="titulo-video"></h2>
 
-    <video id="video-player"
-           controls
-           playsinline
-           preload="metadata">
-    </video>
+            <div class="player-container">
 
-    <p id="erro-video" class="oculto">
-        Não foi possível carregar o vídeo.
-    </p>
+                <video
+                    id="video-player"
+                    controls
+                    playsinline
+                    preload="metadata">
+                    Seu navegador não suporta reprodução de vídeo.
+                </video>
 
-</section>
+            </div>
 
-        <!-- MENSAGEM FINAL -->
+            <p id="erro-video" class="erro oculto">
+                Não foi possível reproduzir este vídeo.
+                Verifique se o arquivo foi enviado corretamente.
+            </p>
+
+        </section>
+
+        <!-- TELA FINAL -->
         <section id="mensagem-final" class="oculto">
 
             <div class="mensagem">
 
-                <div class="icone">♡</div>
+                <div class="icone-coracao">♡</div>
+
+                <span class="etiqueta-final">MOMENTO DE ORAÇÃO</span>
 
                 <h1>AGORA É A SUA VEZ!</h1>
 
                 <h2 id="nome-final">
-                    Ore por este missionário.
+                    Agora ore por este missionário.
                 </h2>
 
                 <p>
@@ -68,13 +88,17 @@
                     Sua oração também faz parte dessa obra.
                 </p>
 
+                <button id="voltar-final" type="button">
+                    Escolher outro missionário
+                </button>
+
             </div>
 
         </section>
 
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
 
 </body>
 </html>
