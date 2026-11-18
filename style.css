@@ -1,0 +1,151 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #101b2b;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.container {
+    width: 92%;
+    max-width: 1100px;
+    margin: auto;
+    padding: 45px 0;
+}
+
+#selecao h1 {
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+.subtitulo {
+    text-align: center;
+    color: #b9c4d2;
+    margin: 15px 0 35px;
+}
+
+.catalogo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.video-card {
+    background: #1d2c40;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    background: #293d56;
+}
+
+.video-card img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.video-card h3 {
+    font-size: 15px;
+    padding: 15px;
+}
+
+#area-video {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+#player {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+#player iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 12px;
+}
+
+.oculto {
+    display: none !important;
+}
+
+#mensagem-final {
+    min-height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.mensagem {
+    max-width: 600px;
+    padding: 30px;
+}
+
+.icone {
+    font-size: 75px;
+    color: #e8bd65;
+    margin-bottom: 20px;
+}
+
+.mensagem h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.mensagem h2 {
+    color: #e8bd65;
+    font-size: 23px;
+    margin-bottom: 20px;
+}
+
+.mensagem p {
+    color: #d0d9e5;
+    line-height: 1.7;
+    font-size: 17px;
+}
+
+.frase-final {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+@media (min-width: 700px) {
+    .catalogo {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 450px) {
+    .container {
+        padding-top: 30px;
+    }
+
+    #selecao h1 {
+        font-size: 22px;
+    }
+
+    .catalogo {
+        gap: 12px;
+    }
+
+    .video-card h3 {
+        font-size: 13px;
+        padding: 10px;
+    }
+}
