@@ -1,236 +1,157 @@
 
-// ======================================
-// MISSIONÁRIOS E ARQUIVOS MP4
-// ======================================
+const grid = document.getElementById("videoGrid");
+const counter = document.getElementById("counter");
+const setupNote = document.getElementById("setupNote");
 
-const missionarios = [
-    {
-        nome: "Ellen Gregorio",
-        video: "ellen_gregorio_honduras.mp4"
-    },
-    {
-        nome: "Missionário 02",
-        video: "missionario02.mp4"
-    },
-    {
-        nome: "Missionário 03",
-        video: "missionario03.mp4"
-    },
-    {
-        nome: "Missionário 04",
-        video: "missionario04.mp4"
-    },
-    {
-        nome: "Missionário 05",
-        video: "missionario05.mp4"
-    },
-    {
-        nome: "Missionário 06",
-        video: "missionario06.mp4"
-    },
-    {
-        nome: "Missionário 07",
-        video: "missionario07.mp4"
-    },
-    {
-        nome: "Missionário 08",
-        video: "missionario08.mp4"
-    },
-    {
-        nome: "Missionário 09",
-        video: "missionario09.mp4"
-    },
-    {
-        nome: "Missionário 10",
-        video: "missionario10.mp4"
-    }
-];
+const modal = document.getElementById("playerModal");
+const video = document.getElementById("missionaryVideo");
+const title = document.getElementById("playerTitle");
 
-// ======================================
-// ELEMENTOS DO HTML
-// ======================================
+const thankYou = document.getElementById("thankYou");
+const watchHint = document.querySelector(".watch-hint");
 
-const catalogo = document.getElementById("catalogo");
-const selecao = document.getElementById("selecao");
-const areaVideo = document.getElementById("area-video");
-const mensagemFinal = document.getElementById("mensagem-final");
+const missionaries = Array.from({ length: 10 }, (_, i) => ({
+    name: `Missionário ${String(i + 1).padStart(2, "0")}`,
+    file: null,
+    url: null
+}));
 
-const videoPlayer = document.getElementById("video-player");
-const tituloVideo = document.getElementById("titulo-video");
-const nomeFinal = document.getElementById("nome-final");
-const erroVideo = document.getElementById("erro-video");
+function render() {
+    grid.innerHTML = "";
 
-const botaoVoltar = document.getElementById("voltar");
-const botaoVoltarFinal = document.getElementById("voltar-final");
-
-let missionarioAtual = null;
-
-// ======================================
-// CRIAR OS 10 CARTÕES
-// ======================================
-
-function criarCatalogo() {
-
-    catalogo.innerHTML = "";
-
-    missionarios.forEach((missionario) => {
-
+    missionaries.forEach((person, index) => {
         const card = document.createElement("article");
         card.className = "video-card";
-        card.setAttribute("role", "button");
-        card.setAttribute("tabindex", "0");
 
-        const miniatura = document.createElement("div");
-        miniatura.className = "miniatura";
+        const number = document.createElement("div");
+        number.className = "video-number";
+        number.textContent = String(index + 1).padStart(2, "0");
 
-        const play = document.createElement("span");
-        play.className = "botao-play";
-        play.textContent = "▶";
+        const info = document.createElement("div");
+        info.className = "card-info";
 
-        miniatura.appendChild(play);
+        const name = document.createElement("strong");
+        name.textContent = person.name;
 
-        const titulo = document.createElement("h3");
-        titulo.textContent = missionario.nome;
+        const status = document.createElement("small");
+        status.textContent = person.file
+            ? person.file.name
+            : "Nenhum vídeo selecionado";
 
-        card.appendChild(miniatura);
-        card.appendChild(titulo);
+        info.append(name, status);
 
-        card.addEventListener("click", () => {
-            abrirVideo(missionario);
-        });
+        const actions = document.createElement("div");
+        actions.className = "card-actions";
 
-        card.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                abrirVideo(missionario);
+        const choose = document.createElement("button");
+        choose.className = "edit-button";
+        choose.textContent = person.file
+            ? "Trocar vídeo"
+            : "Adicionar vídeo";
+
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "video/*";
+        input.className = "file-input";
+
+        choose.addEventListener("click", () => input.click());
+
+        input.addEventListener("change", () => {
+            const file = input.files[0];
+
+            if (!file) return;
+
+            if (person.url) {
+                URL.revokeObjectURL(person.url);
             }
+
+            person.file = file;
+            person.url = URL.createObjectURL(file);
+
+            render();
         });
 
-        catalogo.appendChild(card);
+        const play = document.createElement("button");
+        play.className = "card-button";
+        play.textContent = "▶ Assistir";
+        play.disabled = !person.file;
 
+        play.addEventListener("click", () => {
+            openPlayer(index);
+        });
+
+        actions.append(choose, play, input);
+        card.append(number, info, actions);
+
+        grid.append(card);
     });
 
+    const count = missionaries.filter(m => m.file).length;
+
+    counter.textContent = `${count}/10 vídeos adicionados`;
+
+    setupNote.style.display = count === 10 ? "none" : "flex";
 }
 
-// ======================================
-// ABRIR VÍDEO SELECIONADO
-// ======================================
+function openPlayer(index) {
+    const person = missionaries[index];
 
-function abrirVideo(missionario) {
+    title.textContent = person.name;
 
-    missionarioAtual = missionario;
+    thankYou.hidden = true;
+    watchHint.hidden = false;
+    video.style.display = "block";
 
-    // Esconder outras telas
-    selecao.classList.add("oculto");
-    mensagemFinal.classList.add("oculto");
+    video.pause();
+    video.src = person.url;
+    video.load();
 
-    // Mostrar player
-    areaVideo.classList.remove("oculto");
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
 
-    tituloVideo.textContent = missionario.nome;
+    document.body.style.overflow = "hidden";
 
-    erroVideo.classList.add("oculto");
+    const attempt = video.play();
 
-    // Limpar vídeo anterior
-    videoPlayer.pause();
-    videoPlayer.removeAttribute("src");
-
-    // Caminho do MP4 na raiz do repositório
-    videoPlayer.src = missionario.video;
-
-    videoPlayer.load();
-
-    // Tentar iniciar automaticamente
-    videoPlayer.play().catch(() => {
-        // Se o navegador bloquear o autoplay,
-        // o usuário poderá clicar no botão Play.
-    });
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+    if (attempt) {
+        attempt.catch(() => {
+            // O visitante poderá iniciar pelo botão de reprodução.
+        });
+    }
 }
 
-// ======================================
-// VOLTAR AO CATÁLOGO
-// ======================================
+function closePlayer() {
+    video.pause();
+    video.removeAttribute("src");
+    video.load();
 
-function voltarAoCatalogo() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
 
-    videoPlayer.pause();
-
-    videoPlayer.removeAttribute("src");
-    videoPlayer.load();
-
-    missionarioAtual = null;
-
-    areaVideo.classList.add("oculto");
-    mensagemFinal.classList.add("oculto");
-
-    selecao.classList.remove("oculto");
-
-    erroVideo.classList.add("oculto");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+    document.body.style.overflow = "";
 }
 
-botaoVoltar.addEventListener("click", voltarAoCatalogo);
-
-botaoVoltarFinal.addEventListener("click", voltarAoCatalogo);
-
-// ======================================
-// QUANDO O VÍDEO TERMINAR
-// ======================================
-
-videoPlayer.addEventListener("ended", () => {
-
-    if (!missionarioAtual) return;
-
-    areaVideo.classList.add("oculto");
-
-    mensagemFinal.classList.remove("oculto");
-
-    nomeFinal.textContent =
-        "Agora ore por " + missionarioAtual.nome + ".";
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+video.addEventListener("ended", () => {
+    watchHint.hidden = true;
+    thankYou.hidden = false;
 });
 
-// ======================================
-// IDENTIFICAR ERRO NO VÍDEO
-// ======================================
+document.getElementById("closePlayer")
+    .addEventListener("click", closePlayer);
 
-videoPlayer.addEventListener("error", () => {
+document.getElementById("backToList")
+    .addEventListener("click", closePlayer);
 
-    erroVideo.classList.remove("oculto");
-
-    console.error(
-        "Erro ao carregar o vídeo:",
-        missionarioAtual?.video,
-        videoPlayer.error
-    );
-
+modal.addEventListener("click", event => {
+    if (event.target.dataset.close) {
+        closePlayer();
+    }
 });
 
-// Esconder aviso quando o vídeo estiver pronto
-videoPlayer.addEventListener("canplay", () => {
-
-    erroVideo.classList.add("oculto");
-
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && modal.classList.contains("open")) {
+        closePlayer();
+    }
 });
 
-// ======================================
-// INICIAR SITE
-// ======================================
-
-criarCatalogo();
+render();
