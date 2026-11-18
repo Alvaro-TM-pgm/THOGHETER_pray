@@ -1,15 +1,45 @@
 
 const missionarios = [
-    { nome: "Ellen Gregorio", video: "ellen_gregorio_honduras.mp4" },
-    { nome: "Missionário 02", id: "ID_DO_VIDEO_2" },
-    { nome: "Missionário 03", id: "ID_DO_VIDEO_3" },
-    { nome: "Missionário 04", id: "ID_DO_VIDEO_4" },
-    { nome: "Missionário 05", id: "ID_DO_VIDEO_5" },
-    { nome: "Missionário 06", id: "ID_DO_VIDEO_6" },
-    { nome: "Missionário 07", id: "ID_DO_VIDEO_7" },
-    { nome: "Missionário 08", id: "ID_DO_VIDEO_8" },
-    { nome: "Missionário 09", id: "ID_DO_VIDEO_9" },
-    { nome: "Missionário 10", id: "ID_DO_VIDEO_10" }
+    {
+        nome: "Ellen Gregorio",
+        video: "ellen_gregorio_honduras.mp4"
+    },
+    {
+        nome: "Missionário 02",
+        video: "missionario02.mp4"
+    },
+    {
+        nome: "Missionário 03",
+        video: "missionario03.mp4"
+    },
+    {
+        nome: "Missionário 04",
+        video: "missionario04.mp4"
+    },
+    {
+        nome: "Missionário 05",
+        video: "missionario05.mp4"
+    },
+    {
+        nome: "Missionário 06",
+        video: "missionario06.mp4"
+    },
+    {
+        nome: "Missionário 07",
+        video: "missionario07.mp4"
+    },
+    {
+        nome: "Missionário 08",
+        video: "missionario08.mp4"
+    },
+    {
+        nome: "Missionário 09",
+        video: "missionario09.mp4"
+    },
+    {
+        nome: "Missionário 10",
+        video: "missionario10.mp4"
+    }
 ];
 
 const catalogo = document.getElementById("catalogo");
@@ -17,24 +47,27 @@ const selecao = document.getElementById("selecao");
 const areaVideo = document.getElementById("area-video");
 const mensagemFinal = document.getElementById("mensagem-final");
 
-let missionarioAtual = null;
-let player = null;
+const videoPlayer = document.getElementById("video-player");
+const erroVideo = document.getElementById("erro-video");
 
-// Cria os dez cartões automaticamente
+// Criar catálogo
 missionarios.forEach((missionario) => {
 
     const card = document.createElement("div");
     card.className = "video-card";
 
-    const imagem = document.createElement("img");
-    imagem.src = `https://img.youtube.com/vi/${missionario.id}/hqdefault.jpg`;
-    imagem.alt = missionario.nome;
-    imagem.loading = "lazy";
+    const miniatura = document.createElement("div");
+    miniatura.className = "miniatura";
+
+    const play = document.createElement("span");
+    play.textContent = "▶";
+
+    miniatura.appendChild(play);
 
     const titulo = document.createElement("h3");
     titulo.textContent = missionario.nome;
 
-    card.appendChild(imagem);
+    card.appendChild(miniatura);
     card.appendChild(titulo);
 
     card.addEventListener("click", () => {
@@ -42,90 +75,44 @@ missionarios.forEach((missionario) => {
     });
 
     catalogo.appendChild(card);
+
 });
 
-// Abre o vídeo selecionado
+// Abrir vídeo escolhido
 function abrirVideo(missionario) {
-
-    missionarioAtual = missionario;
 
     selecao.classList.add("oculto");
     mensagemFinal.classList.add("oculto");
+
+    erroVideo.classList.add("oculto");
     areaVideo.classList.remove("oculto");
 
-    if (player && typeof player.destroy === "function") {
-        player.destroy();
-    }
+    videoPlayer.pause();
 
-    document.getElementById("player").innerHTML =
-        '<div id="youtube-player"></div>';
+    videoPlayer.src = missionario.video;
+    videoPlayer.load();
 
-    if (window.YT && window.YT.Player) {
-        criarPlayer();
-    } else {
-        carregarYouTube();
-    }
-
-}
-
-// Carrega a API oficial do YouTube
-function carregarYouTube() {
-
-    if (window.YT && window.YT.Player) {
-        criarPlayer();
-        return;
-    }
-
-    if (document.getElementById("youtube-api")) return;
-
-    const tag = document.createElement("script");
-    tag.id = "youtube-api";
-    tag.src = "https://www.youtube.com/iframe_api";
-
-    document.body.appendChild(tag);
-}
-
-// Cria o player e detecta o fim do vídeo
-function criarPlayer() {
-
-    if (!missionarioAtual) return;
-
-    player = new YT.Player("youtube-player", {
-        width: "100%",
-        height: "100%",
-        videoId: missionarioAtual.id,
-
-        playerVars: {
-            autoplay: 1,
-            rel: 0,
-            playsinline: 1
-        },
-
-        events: {
-            onStateChange: mudarEstadoVideo
-        }
+    videoPlayer.play().catch(() => {
+        // Se o navegador bloquear o início automático,
+        // a pessoa poderá clicar no botão de reprodução.
     });
 
 }
 
-// Chamado automaticamente pela API do YouTube
-window.onYouTubeIframeAPIReady = function() {
-    if (missionarioAtual) {
-        criarPlayer();
-    }
-};
+// Identificar quando o vídeo terminar
+videoPlayer.addEventListener("ended", () => {
 
-// Identifica quando o vídeo termina
-function mudarEstadoVideo(event) {
+    areaVideo.classList.add("oculto");
 
-    if (event.data === YT.PlayerState.ENDED) {
+    mensagemFinal.classList.remove("oculto");
 
-        areaVideo.classList.add("oculto");
-        mensagemFinal.classList.remove("oculto");
+    document.getElementById("nome-final").textContent =
+        "Agora ore por " + nomeMissionarioAtual + ".";
 
-        document.getElementById("nome-final").textContent =
-            "Agora ore por " + missionarioAtual.nome + ".";
+});
 
-    }
+// Guardar o nome do missionário selecionado
+let nomeMissionarioAtual = "";
 
-}
+const abrirVideoOriginal = abrirVideo;
+
