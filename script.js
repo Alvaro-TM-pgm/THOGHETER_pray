@@ -3,45 +3,10 @@ const missionarios = [
     {
         nome: "Ellen Gregorio",
         video: "ellen_gregorio_honduras.mp4"
-    },
-    {
-        nome: "Missionário 02",
-        video: "missionario02.mp4"
-    },
-    {
-        nome: "Missionário 03",
-        video: "missionario03.mp4"
-    },
-    {
-        nome: "Missionário 04",
-        video: "missionario04.mp4"
-    },
-    {
-        nome: "Missionário 05",
-        video: "missionario05.mp4"
-    },
-    {
-        nome: "Missionário 06",
-        video: "missionario06.mp4"
-    },
-    {
-        nome: "Missionário 07",
-        video: "missionario07.mp4"
-    },
-    {
-        nome: "Missionário 08",
-        video: "missionario08.mp4"
-    },
-    {
-        nome: "Missionário 09",
-        video: "missionario09.mp4"
-    },
-    {
-        nome: "Missionário 10",
-        video: "missionario10.mp4"
     }
 ];
 
+// ELEMENTOS
 const catalogo = document.getElementById("catalogo");
 const selecao = document.getElementById("selecao");
 const areaVideo = document.getElementById("area-video");
@@ -50,7 +15,7 @@ const mensagemFinal = document.getElementById("mensagem-final");
 const videoPlayer = document.getElementById("video-player");
 const erroVideo = document.getElementById("erro-video");
 
-// Criar catálogo
+// CRIAR CATÁLOGO
 missionarios.forEach((missionario) => {
 
     const card = document.createElement("div");
@@ -75,17 +40,19 @@ missionarios.forEach((missionario) => {
     });
 
     catalogo.appendChild(card);
-
 });
 
-// Abrir vídeo escolhido
+// ABRIR VÍDEO
 function abrirVideo(missionario) {
 
     selecao.classList.add("oculto");
     mensagemFinal.classList.add("oculto");
 
-    erroVideo.classList.add("oculto");
     areaVideo.classList.remove("oculto");
+    erroVideo.classList.add("oculto");
+
+    document.getElementById("titulo-video").textContent =
+        missionario.nome;
 
     videoPlayer.pause();
 
@@ -93,26 +60,79 @@ function abrirVideo(missionario) {
     videoPlayer.load();
 
     videoPlayer.play().catch(() => {
-        // Se o navegador bloquear o início automático,
-        // a pessoa poderá clicar no botão de reprodução.
+        // A pessoa poderá apertar PLAY manualmente.
     });
 
 }
 
-// Identificar quando o vídeo terminar
-videoPlayer.addEventListener("ended", () => {
+// VOLTAR AO CATÁLOGO
+document.getElementById("voltar").addEventListener("click", () => {
+
+    videoPlayer.pause();
+    videoPlayer.removeAttribute("src");
+    videoPlayer.load();
 
     areaVideo.classList.add("oculto");
-
-    mensagemFinal.classList.remove("oculto");
-
-    document.getElementById("nome-final").textContent =
-        "Agora ore por " + nomeMissionarioAtual + ".";
+    mensagemFinal.classList.add("oculto");
+    selecao.classList.remove("oculto");
 
 });
 
-// Guardar o nome do missionário selecionado
-let nomeMissionarioAtual = "";
+// VÍDEO FINALIZADO
+videoPlayer.addEventListener("ended", () => {
+
+    areaVideo.classList.add("oculto");
+    mensagemFinal.classList.remove("oculto");
+
+    document.getElementById("nome-final").textContent =
+        "Agora ore por " + missionarioAtual.nome + ".";
+
+});
+
+// ERRO DE CARREGAMENTO
+videoPlayer.addEventListener("error", () => {
+
+    erroVideo.classList.remove("oculto");
+
+});
+
+// GUARDAR MISSIONÁRIO ATUAL
+let missionarioAtual = null;
 
 const abrirVideoOriginal = abrirVideo;
 
+// Atualizar a seleção antes de iniciar o vídeo
+function selecionarMissionario(missionario) {
+    missionarioAtual = missionario;
+    abrirVideo(missionario);
+}
+
+// Associar os cartões à função correta
+catalogo.innerHTML = "";
+
+missionarios.forEach((missionario) => {
+
+    const card = document.createElement("div");
+    card.className = "video-card";
+
+    const miniatura = document.createElement("div");
+    miniatura.className = "miniatura";
+
+    const play = document.createElement("span");
+    play.textContent = "▶";
+
+    miniatura.appendChild(play);
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = missionario.nome;
+
+    card.appendChild(miniatura);
+    card.appendChild(titulo);
+
+    card.addEventListener("click", () => {
+        selecionarMissionario(missionario);
+    });
+
+    catalogo.appendChild(card);
+
+});
